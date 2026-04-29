@@ -1,0 +1,15 @@
+torch>=2.0.0
+torchvision>=0.15.0
+fastapi
+uvicorn[standard]
+python-multipart
+kaggle
+pandas
+numpy
+scikit-learn
+PyYAML
+Pillow
+seaborn
+matplotlib
+mlflow
+dvc

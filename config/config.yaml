@@ -1,0 +1,31 @@
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  kaggle_dataset: aptos2019-blindness-detection
+  unzip_dir: artifacts/data_ingestion/data
+
+data_validation:
+  root_dir: artifacts/data_validation
+  status_file: artifacts/data_validation/status.txt
+  required_files: [train_images, train.csv]
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path: artifacts/data_ingestion/data
+  image_size: 260
+  batch_size: 8
+  num_workers: 2
+
+model_trainer:
+  root_dir: artifacts/model_trainer
+  trained_model_path: models/hierdr_net.pth
+
+cascade_model:
+  root_dir: artifacts/cascade_model
+  stage1_model_dir: models/cascade
+  stage1_model_path: models/cascade/stage1_net.pth
+  stage2_model_dir: models/cascade
+  stage2_model_path: models/cascade/stage2_net.pth
+
+model_evaluation:
+  root_dir: artifacts/model_evaluation
+  metrics_path: reports/metrics/eval_metrics.json

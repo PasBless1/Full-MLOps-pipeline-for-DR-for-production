@@ -1,0 +1,31 @@
+from src.config.config import ConfigurationManager
+from src.data.ingestion import DataIngestion
+from src.data.validation import DataValidation
+from src.data.transformation import DataTransformation
+from src.models.train import ModelTrainer
+from src.utils.logger import logger
+
+
+class TrainingPipeline:
+    def run(self):
+        manager = ConfigurationManager()
+
+        logger.info(">>> Stage 1: Data Ingestion")
+        DataIngestion(manager.get_data_ingestion_config()).run()
+
+        logger.info(">>> Stage 2: Data Validation")
+        ok = DataValidation(manager.get_data_validation_config()).validate()
+        if not ok:
+            raise Exception("Data validation failed.")
+
+        logger.info(">>> Stage 3: Data Transformation")
+        dt = DataTransformation(manager.get_data_transformation_config())
+        train_loader, val_loader, _ = dt.get_data_loaders()
+
+        logger.info(">>> Stage 4: Model Training — HierDRNet")
+        ModelTrainer(manager.get_model_trainer_config()).train(train_loader, val_loader)
+        logger.info("HierDRNet pipeline complete.")
+
+
+if __name__ == "__main__":
+    TrainingPipeline().run()
